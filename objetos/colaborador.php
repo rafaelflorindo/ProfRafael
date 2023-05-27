@@ -5,12 +5,9 @@ $colab1 = new Colaborador();
 //var_dump($colab1);
 ?>
 <div>
-<a href="index.php?pagina=colaborador.php&acao=listar">
-    <button class="button button1">Listar</button>
-</a>
-<a href="index.php?pagina=colaborador.php&acao=inserir">
-    <button class="button button2">Inserir</button>
-</a>
+<h2>Gestão de Colaboradores</h2>
+<a href="index.php?pagina=colaborador.php&acao=listar"><button class="button button1">Listar Todos</button></a>
+<a href="index.php?pagina=colaborador.php&acao=inserir"><button class="button button2">Adicionar Colaborador</button></a>
 
 </div>
 <?php
@@ -58,6 +55,7 @@ if(isset($_GET["acao"]) && !empty($_GET["acao"])){
                     <td><?=$row["nome"]?></td>
                     <td><?=$row["cargo"]?></td>
                     <td>
+                    <a href="index.php?pagina=colaborador.php&acao=visualizar&id=<?=$id?>"><button class="button button4">Visualizar</button></a>
                     <a href="index.php?pagina=colaborador.php&acao=alterar&id=<?=$id?>"><button class="button button2">Alterar</button></a>
                     <a href="index.php?pagina=controlerColaborador.php&acao=excluir&id=<?=$id?>"><button class="button button3">Excluir</button></a>
                 </td>
@@ -125,8 +123,16 @@ if(isset($_GET["acao"]) && !empty($_GET["acao"])){
         }else{
             header("Location: ./index.php?pagina=colaborador.php&acao=listar&mensagem=erro");
         }
-    }elseif($acao=="excluir"){
-        echo "EXCLUIR";
+    }elseif($acao=="visualizar"){
+        if(isset($_GET["id"]) && !empty($_GET["id"])){
+            $id = $_GET["id"];
+            $row = $colab1->carregarColaborador($id);
+            //var_dump($row);
+            foreach($row as $dado){
+                echo "id" . $dado["id"];
+            }
+        }
+
     }
 }
 

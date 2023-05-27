@@ -210,8 +210,8 @@ input[type=submit]:hover {
 </div>
 
 <div class="content">
-  <h2>CSS Template</h2>
-  <p>A topnav, content and a footer.</p>
+  <!--<h2>CSS Template</h2>
+  <p>A topnav, content and a footer.</p>-->
   <?php
     if(isset($_GET["pagina"]) && 
       !empty($_GET["pagina"])){
@@ -226,59 +226,6 @@ input[type=submit]:hover {
 <div class="footer">
   <p>Footer</p>
 </div>
-
-</body>
-</html>
-
-
-
-
-<?php
-    exit;
-    $conn = conectar();
-    
-    /*inserção de registro*/
-    //Projetos
-    $campos1 = "nome, descricao, responsavel, status, dataInicio, dataTermino";
-    $campos2 = ":nome, :descricao, :responsavel, :status, :dataInicio, :dataTermino";
-    $tabela = "projetos";
-    $dados = array('nome'=>'Trocador de Óleo', 'descricao'=>'Trocador de Óleo', 'responsavel'=>'6', 'status'=>'1', 'dataInicio'=>'2023-05-19', 'dataTermino'=>'');
-    //cadastro($conn, $tabela, $campos1, $campos2, $dados);
-
-    /*Alteração de registro*/
-    //Projetos
-    $tabela = "projetos";
-    $campos = "nome = :nome, descricao = :descricao, responsavel = :responsavel, status = :status, dataInicio = :dataInicio, dataTermino = :dataTermino";
-    $dados = array('nome'=>'Trocador de Óleo', 'descricao'=>'Trocador de Óleo', 'responsavel'=>'6','status'=>'2', 'dataInicio'=>'2023-05-19', 'dataTermino'=>'2023-05-20','id'=>6);
-    //atualizar($conn, $tabela, $campos, $dados);
-    
-    /*Deletar  registro*/
-    //Projetos
-    $id = 1;
-    $tabela = "tarefas";
-    //deletar($conn, $tabela, $id);
-
-    
-    /*listagem de registro*/
-    echo "<br><b>Relatório Geral de colaboradores</b><br>";
-    listarColaboradores($conn);
-    
-    echo "<br><b>Relatório com Colaborador especifico com o ID</b><br>";
-    $id = 1;
-    listarWhere($conn,$id);
-
-    echo "<br><b>Relatório Geral de colaboradores de cargo Gerente ordenado em ordem crescente</b><br>";
-    $cargo = "Gerente";
-    listarGerente($conn,$cargo);
-
-    echo "<br><b>Relatório Geral de Projetos</b><br>";
-    listarProjetos($conn);
-
-    echo "<br><b>Relatório Geral de Projetos com status Ativo ou Inativo</b><br>";
-    $status = 2;
-    listarProjetosStatus($conn,$status);
-
-?>
 
 <script>
 // Get all elements with class="closebtn"
@@ -301,3 +248,50 @@ for (i = 0; i < close.length; i++) {
   }
 }
 </script>
+
+<script>
+  const constCPF= document.getElementById('cpf');
+  const form = document.getElementById('checkout_form');
+
+  constCPF.addEventListener("focus", function(event){
+    event.target.style.background = "white"
+  }, true);
+
+  constCPF.addEventListener("blur", function(event){
+    var string = document.getElementById('cpf').value;
+    var strCPF =  string.replace('.','').replace('-','').replace('.','') ;
+    
+    if (TestaCPF(strCPF)!=true){
+      alert("CPF inválido")
+      event.target.style.background = "#ff00007a"
+    }else{
+      event.target.style.background = "#00b6ff29"
+    }
+  }, true);
+
+  function TestaCPF(strCPF) {
+    var Soma;
+    var Resto;
+    Soma = 0;
+  
+    if (strCPF == "00000000000") return false;
+
+    for (i=1; i<=9; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (11 - i);
+    
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11))  Resto = 0;
+    if (Resto != parseInt(strCPF.substring(9, 10)) ) return false;
+
+    Soma = 0;
+    for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i-1, i)) * (12 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11))  Resto = 0;
+    if (Resto != parseInt(strCPF.substring(10, 11) ) ) return false;
+    return true;
+  }
+
+</script>
+</body>
+</html>
