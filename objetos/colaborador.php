@@ -2,15 +2,18 @@
 
 include("./Model/Colaborador.php");
 $colab1 = new Colaborador();
-
+//var_dump($colab1);
 ?>
 <div>
-<a href="index.php?pagina=colaborador.php&acao=listar"><button class="button button1">Listar</button></a>
-<a href="index.php?pagina=colaborador.php&acao=inserir"><button class="button button2">Inserir</button></a>
+<a href="index.php?pagina=colaborador.php&acao=listar">
+    <button class="button button1">Listar</button>
+</a>
+<a href="index.php?pagina=colaborador.php&acao=inserir">
+    <button class="button button2">Inserir</button>
+</a>
 
 </div>
 <?php
-
 if(isset($_GET["mensagem"]) && !empty($_GET["mensagem"])){
     $mensagem = $_GET["mensagem"];
 
@@ -31,27 +34,32 @@ if(isset($_GET["mensagem"]) && !empty($_GET["mensagem"])){
     }
 }
 
-
 if(isset($_GET["acao"]) && !empty($_GET["acao"])){
 
     $acao = $_GET["acao"];
 
     if($acao=="listar"){
-        $result = $colab1->listar();
-        if (count($result)) {
+        $resultado = $colab1->listar();
+        if (count($resultado)) {
         ?>
-            <table  id="customers"><tr><th>ID</th><th>NOME</th><th>CARGO</th><th>AÇÃO</th></tr>
+            <table id="customers">
+                <tr>
+                    <th>ID</th>
+                    <th>NOME</th>
+                    <th>CARGO</th>
+                    <th>AÇÃO</th>
+                </tr>
             <?php  
-                foreach($result as $row) {
+                foreach($resultado as $row) {
                     $id = $row["id"];
                 ?>
                 <tr>
-                    <td><?=$row["id"]?></td>
+                    <td><?php echo $row["id"]; ?></td>
                     <td><?=$row["nome"]?></td>
                     <td><?=$row["cargo"]?></td>
                     <td>
                     <a href="index.php?pagina=colaborador.php&acao=alterar&id=<?=$id?>"><button class="button button2">Alterar</button></a>
-                    <a href="index.php?pagina=controlerColaborador.php&acao=excluir&id=<?=$id?>"><button class="button button3">excluir</button></a>
+                    <a href="index.php?pagina=controlerColaborador.php&acao=excluir&id=<?=$id?>"><button class="button button3">Excluir</button></a>
                 </td>
 
                 </tr>        
@@ -80,7 +88,7 @@ if(isset($_GET["acao"]) && !empty($_GET["acao"])){
         <option value="Gerente">Gerente</option>
         <option value="Desenvolvedor">Desenvolvedor</option>
         </select>
-    
+        <input type="hidden" name="acao" value="inserir">
         <input type="submit" value="Adicionar">
     </form>
     </div>
@@ -90,7 +98,7 @@ if(isset($_GET["acao"]) && !empty($_GET["acao"])){
         if(isset($_GET["id"]) && !empty($_GET["id"])){
             $id = $_GET["id"];
             $row = $colab1->carregarColaborador($id);
-            //var_dump($row);
+            var_dump($row);
             foreach($row as $dado)
         ?>
             <h2>Alterar Colaborador</h2>

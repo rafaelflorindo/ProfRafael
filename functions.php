@@ -12,9 +12,9 @@ function conectar(){
     }
 }   
 
-function cadastro($conn, $tabela, $campos1, $campos2, $data){
+function cadastro($conn, $tabela, $campos1, $valores, $data){
 
-    $sql = "INSERT INTO $tabela ($campos1) VALUES ($campos2)";
+    $sql = "INSERT INTO $tabela ($campos1) VALUES ($valores)";
     $stmt= $conn->prepare($sql);
     $stmt->execute($data);
     
@@ -58,13 +58,16 @@ function listarColaboradores($conn){
 
     while($row = $stmt->fetch()) {
         print_r($row);
+        //echo $row['id'];
+        //var_dump($row);
         echo "<br>";
     }
 }
 
 function listarWhere($conn, $id){
-    $stmt = $conn->prepare('SELECT * FROM colaboradores WHERE id = :id');
-    $stmt->execute(array('id' => $id));
+    $stmt = 
+    $conn->prepare('SELECT * FROM colaboradores WHERE id = :id');
+    $stmt->execute(array(':id' => $id));
 
     while($row = $stmt->fetch()) {
         print_r($row);
@@ -74,7 +77,7 @@ function listarWhere($conn, $id){
 
 function listarGerente($conn, $cargo){
     $stmt = $conn->prepare('select nome, cargo, cpf from colaboradores where cargo = :cargo  order by nome asc');
-    $stmt->execute(array('cargo' => $cargo));
+    $stmt->execute(array(':cargo' => $cargo));
 
     while($row = $stmt->fetch(PDO :: FETCH_ASSOC)) {
         print_r($row);
@@ -97,7 +100,7 @@ function listarProjetos($conn){
 }
 function listarProjetosStatus($conn,$status){
     $stmt = $conn->prepare('select projetos.nome, projetos.descricao, projetos.dataInicio, colaboradores.nome from projetos, colaboradores where projetos.status = :status and projetos.responsavel = colaboradores.id');
-    $stmt->execute(array('status' => $status));
+    $stmt->execute(array(':status' => $status));
 
     while($row = $stmt->fetch()) {
         print_r($row);

@@ -213,7 +213,8 @@ input[type=submit]:hover {
   <h2>CSS Template</h2>
   <p>A topnav, content and a footer.</p>
   <?php
-    if(isset($_GET["pagina"]) && !empty($_GET["pagina"])){
+    if(isset($_GET["pagina"]) && 
+      !empty($_GET["pagina"])){
         $pagina = $_GET["pagina"];
         include($pagina);
     }else{
