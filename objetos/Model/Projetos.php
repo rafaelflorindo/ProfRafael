@@ -1,9 +1,8 @@
 <?php
 require_once ("Myconnect.php");
 
-class Colaborador extends Myconnect{
+class Projetos extends Myconnect{
     private $campos1, $campos2, $data;
-    public $conn;
 
     public function getCampos1(){
         return $this->campos1;
@@ -16,20 +15,21 @@ class Colaborador extends Myconnect{
     }
 
     public function listar(){
-        $stmt = $this->conn->prepare("SELECT * FROM colaboradores");
+        $stmt = $this->conn->prepare("SELECT * FROM projetos where status = 1 order by nome asc");
         $stmt->execute();
         
         $result = $stmt->fetchAll(PDO :: FETCH_ASSOC);
+        //var_dump($result);
         return $result; 
     }
-    //acrescentei este método para listar nome dos colaboradores nos projetos
-    public function listarSelect(){
+    /*public function listarSelect(){
         $stmt = $this->conn->prepare("SELECT id, nome FROM colaboradores order by nome asc");
         $stmt->execute();
         
         $result = $stmt->fetchAll(PDO :: FETCH_ASSOC);
+        //var_dump($result);
         return $result; 
-    }
+    }*/
 
     public function cadastrar($campos1, $campos2, $data){
         $this->campos1 = $campos1;
@@ -40,7 +40,8 @@ class Colaborador extends Myconnect{
         $campos2_poo =  $this->getCampos2();
         $data_poo =  $this->getdata();
        
-        $sql = "INSERT INTO colaboradores ($campos1_poo) VALUES ($campos2_poo)";
+        //$sql = "INSERT INTO projetos order by asc ($campos1) VALUES ($campos2)";
+        $sql = "INSERT INTO projetos order by asc ($campos1_poo) VALUES ($campos2_poo)";
         $stmt= $this->conn->prepare($sql);
         $stmt->execute($data_poo);
         
@@ -52,7 +53,7 @@ class Colaborador extends Myconnect{
     }
     public function atualizar($campos, $data){
     
-        $sql = "update colaboradores set $campos where id = :id";
+        $sql = "update projetos order by asc set $campos where id = :id";
         $stmt= $this->conn->prepare($sql);
         $stmt->execute($data);
         
@@ -64,7 +65,7 @@ class Colaborador extends Myconnect{
     }
     public function deletar($id){
     
-        $sql = "delete from Colaboradores where id = :id";
+        $sql = "delete from projetos order by asc where id = :id";
         $stmt= $this->conn->prepare($sql);
         $stmt->execute(array(':id' => $id));
         
@@ -74,16 +75,9 @@ class Colaborador extends Myconnect{
             return 0;
          }
     }
-    public function carregarColaborador($id){
-        $stmt = $this->conn->prepare('SELECT * FROM colaboradores WHERE id = :id');
+    public function carregarProjetos($id){
+        $stmt = $this->conn->prepare('SELECT * FROM projetos order by asc WHERE id = :id');
         $stmt->execute(array('id' => $id));
-
-        $result = $stmt->fetchAll(PDO :: FETCH_ASSOC);
-        return $result;
-    }
-    public function carregarColaboradorGerente(){
-        $stmt = $this->conn->prepare('SELECT * FROM colaboradores WHERE cargo = :cargo');
-        $stmt->execute(array('cargo' => 'Gerente'));
 
         $result = $stmt->fetchAll(PDO :: FETCH_ASSOC);
         return $result;

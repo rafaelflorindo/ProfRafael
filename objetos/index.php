@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>CSS Template</title>
+<title>Sistema de Gerenciamentos de Projetos</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
@@ -139,6 +139,27 @@ input[type=text], select {
   box-sizing: border-box;
 }
 
+input[type=date], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+textarea{
+  width: 100%;
+  height: 100px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
 input[type=submit] {
   width: 100%;
   background-color: #4CAF50;
@@ -155,10 +176,11 @@ input[type=submit]:hover {
 }
 
 .boxForm {
-    width: 400px;
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px;
+    margin: 0 auto;
+    width: 50%;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
 }
 
 
@@ -206,7 +228,7 @@ input[type=submit]:hover {
 <div class="topnav">
   <a href="index.php?pagina=colaborador.php">Colaborador</a>
   <a href="#">Tarefas</a>
-  <a href="#">Projetos</a>
+  <a href="index.php?pagina=projetos.php">Projetos</a>
 </div>
 
 <div class="content">
