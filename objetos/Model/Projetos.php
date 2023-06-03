@@ -14,15 +14,15 @@ class Projetos extends Myconnect{
         return $this->data;
     }
 
-    public function listar(){
+    /*public function listar(){
         $stmt = $this->conn->prepare("SELECT * FROM projetos where status = 1 order by nome asc");
         $stmt->execute();
         
         $result = $stmt->fetchAll(PDO :: FETCH_ASSOC);
-        //var_dump($result);
+      
         return $result; 
     }
-    /*public function listarSelect(){
+    public function listarSelect(){
         $stmt = $this->conn->prepare("SELECT id, nome FROM colaboradores order by nome asc");
         $stmt->execute();
         
@@ -39,9 +39,8 @@ class Projetos extends Myconnect{
         $campos1_poo =  $this->getCampos1();
         $campos2_poo =  $this->getCampos2();
         $data_poo =  $this->getdata();
-       
-        //$sql = "INSERT INTO projetos order by asc ($campos1) VALUES ($campos2)";
-        $sql = "INSERT INTO projetos order by asc ($campos1_poo) VALUES ($campos2_poo)";
+
+        $sql = "INSERT INTO projetos ($campos1_poo) VALUES ($campos2_poo)";
         $stmt= $this->conn->prepare($sql);
         $stmt->execute($data_poo);
         
@@ -79,6 +78,17 @@ class Projetos extends Myconnect{
         $stmt = $this->conn->prepare('SELECT * FROM projetos order by asc WHERE id = :id');
         $stmt->execute(array('id' => $id));
 
+        $result = $stmt->fetchAll(PDO :: FETCH_ASSOC);
+        return $result;
+    }
+
+    function listarProjetosStatus($status){
+        $stmt = $this->conn->prepare('select p.id, p.nome as '."Projeto".', p.descricao, p.dataInicio, 
+        c.nome 
+        from projetos as p, colaboradores as c 
+        where p.status = :status and p.responsavel = c.id');
+        $stmt->execute(array(':status' => $status));
+    
         $result = $stmt->fetchAll(PDO :: FETCH_ASSOC);
         return $result;
     }

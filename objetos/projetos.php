@@ -1,7 +1,7 @@
 <?php
 
-include("./Model/Projetos.php");
-include("./Model/Colaborador.php");
+require_once("./Model/Projetos.php");
+require_once("./Model/Colaborador.php");
 
 $projeto = new Projetos();
 $colaborador = new Colaborador();
@@ -39,13 +39,16 @@ if(isset($_GET["acao"]) && !empty($_GET["acao"])){
     $acao = $_GET["acao"];
 
     if($acao=="listar"){
-        $resultado = $projeto->listar();
+
+        $status = 1;
+        $resultado = $projeto->listarProjetosStatus(1);
+
         if (count($resultado)) {
         ?>
             <table id="customers">
                 <tr>
-                    <th>ID</th>
-                    <th>NOME</th>
+                    <th>ITEM</th>
+                    <th>PROJETO</th>
                     <th>GERENTE</th>
                     <th>INICIO</th>
                     <th>AÇÃO</th>
@@ -54,14 +57,14 @@ if(isset($_GET["acao"]) && !empty($_GET["acao"])){
                 $i=1;
                 foreach($resultado as $row) {
                     $id = $row["id"];
-
-                    $resultadoColaborador = $colaborador->carregarColaborador($row["responsavel"]);
-                    foreach($resultadoColaborador as $rowColaborador)
+                    
+                    //$resultadoColaborador = $colaborador->carregarColaborador($row["responsavel"]);
+                    //foreach($resultadoColaborador as $rowColaborador)
                 ?>
                 <tr>
                     <td><?php echo $i++; ?></td>
+                    <td><?=$row["Projeto"]?></td>
                     <td><?=$row["nome"]?></td>
-                    <td><?=$rowColaborador["nome"]?></td>
                     <td><?php
                         $data = new DateTime($row["dataInicio"]);
                         echo $data->format('d/m/Y');
@@ -96,10 +99,12 @@ if(isset($_GET["acao"]) && !empty($_GET["acao"])){
         <label for="cargo">Cargo</label>
         <select id="cargo" name="cargo">
         <?php
-            $colaboradorGerente = $colaborador->carregarColaboradorGerente();
+            $colaboradorGerente = 
+            $colaborador->carregarColaboradorGerente();
             foreach($colaboradorGerente as $rowColaborador){
             ?>
-                <option value=<?=$rowColaborador['id']?>><?=$rowColaborador['nome']?></option>
+                <option value=<?=$rowColaborador['id']?>>
+                <?=$rowColaborador['nome']?></option>
             <?php
             }
         ?>
